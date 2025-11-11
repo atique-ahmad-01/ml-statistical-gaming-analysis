@@ -1,6 +1,6 @@
 # Data Transformation Summary
 
-One-line summary: the dataset was prepared for modeling by preserving IDs, standardizing numeric features, encoding categorical variables as small integers, detecting (but not removing) outliers, and dropping exact duplicates.
+ The dataset was prepared for modeling by preserving IDs, standardizing numeric features, encoding categorical variables as small integers, detecting (but not removing) outliers, and dropping exact duplicates.
 
 ### Feature-level changes (short table)
 
@@ -26,6 +26,32 @@ One-line summary: the dataset was prepared for modeling by preserving IDs, stand
 - Outliers are detected (IQR default) and logged; they are not removed automatically.
 - Exact duplicate rows are dropped.
 - Fitted scaler and label encoders are kept in memory on the `DataPreprocessor` instance (no files written to disk by default).
+
+### Label encoding mappings
+
+The exact mappings produced by the preprocessing (LabelEncoder alphabetical mapping) are:
+
+- Gender:
+	- Female -> 0
+	- Male -> 1
+
+- Location:
+	- Asia -> 0
+	- Europe -> 1
+	- Other -> 2
+	- USA -> 3
+
+- GameGenre:
+	- Action -> 0
+	- RPG -> 1
+	- Simulation -> 2
+	- Sports -> 3
+	- Strategy -> 4
+
+- GameDifficulty:
+	- Easy -> 0
+	- Hard -> 1
+	- Medium -> 2
 
 
 ### Quick commands
