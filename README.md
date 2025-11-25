@@ -1,5 +1,5 @@
 
-### Project File Structure
+## Project File Structure
 ```
 ml-statistical-gaming-analysis/
 │
@@ -22,3 +22,14 @@ ml-statistical-gaming-analysis/
 ├── README.md                      # Documentation for project File Structure
 └── .gitignore                     # Ignore cache, venv, etc.
 ```
+
+##  Documentation
+
+- **[Data Analytics Guide](./reports/DATA_ANALYTICS_GUIDE.md)**  
+  Learn about the statistical analysis methods and insights derived from the gaming data.
+
+- **[Data Transformation Guide](./reports/DATA_TRANSFORMATION_GUIDE.md)**  
+  Step-by-step guide on cleaning, transforming, and preparing the data for modeling.
+
+- **[ML Models Reports](./reports/ML_MODELS_REPORTS.md)**  
+  Evaluation and comparison of machine learning models applied on the processed data.
