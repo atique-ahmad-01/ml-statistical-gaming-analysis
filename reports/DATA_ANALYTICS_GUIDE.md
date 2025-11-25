@@ -59,3 +59,14 @@ Only 20% of players (8,041) have completed in-game purchases, leaving 80% as unt
 ## Complete Dashboard Overview
 
 ![Dashboard Full View](../analytics/Online_Gaming_Behavior_Analytics_Dashboard.png)
+
+
+## Numeric features distribution
+![Feature_Distributions](../analytics/Feature_Distributions.png)
+
+
+## Correlation Heatmap
+![correlation_heatmap](../analytics/correlation_heatmap.png)
+
+## Engagement Level Distribution (Model Prediction)
+![Engagement_Level_Distribution_1](../analytics/Engagement_Level_Distribution_1.png)
