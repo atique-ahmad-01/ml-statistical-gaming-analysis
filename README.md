@@ -8,6 +8,7 @@ ml-statistical-gaming-analysis/
 │   └── processed/                 # Cleaned/feature-engineered data
 │
 ├── notebooks/                     # Jupyter notebooks model training and evaluation
+│   ├── models/                    # Saves evaluation report and trained model 
 │   └── model_training.ipynb
 │
 ├── src/                           # Python scripts for data process and transformation
@@ -15,7 +16,7 @@ ml-statistical-gaming-analysis/
 │
 ├── analytics/                       # Model performance, plots, visualiztion and dashboard
 │
-├── report/                        # Final report / markdown summary
+├── report/                        # Final Documentation / reports 
 │
 ├── requirements.txt               # Python dependencies
 ├── README.md                      # Documentation for project File Structure
