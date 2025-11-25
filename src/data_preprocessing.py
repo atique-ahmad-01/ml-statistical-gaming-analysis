@@ -205,6 +205,52 @@ class DataPreprocessor:
                     logger.info(f"Found {len(outlier_indices)} outliers in {col}")
         
         return outliers
+
+    def create_derived_features(self) -> pd.DataFrame:
+        """
+        Create derived features used for modeling.
+
+        Adds columns to self.df_processed:
+          - purchases_per_session = InGamePurchases / max(1, SessionsPerWeek)
+          - playtime_per_week = PlayTimeHours * SessionsPerWeek
+          - achievement_rate = AchievementsUnlocked / max(1, PlayerLevel)
+
+        Returns:
+            pd.DataFrame: Dataset with new derived features
+        """
+        if self.df_processed is None:
+            self.df_processed = self.df.copy()
+
+        # Avoid division by zero by replacing 0 with 1 where appropriate
+        sess = self.df_processed.get('SessionsPerWeek')
+        lvl = self.df_processed.get('PlayerLevel')
+
+        if 'InGamePurchases' in self.df_processed.columns and sess is not None:
+            sessions_safe = sess.replace(0, 1)
+            self.df_processed['purchases_per_session'] = (
+                self.df_processed['InGamePurchases'] / sessions_safe
+            )
+        else:
+            # default to zeros if columns missing
+            self.df_processed['purchases_per_session'] = 0
+
+        if 'PlayTimeHours' in self.df_processed.columns and sess is not None:
+            self.df_processed['playtime_per_week'] = (
+                self.df_processed['PlayTimeHours'] * self.df_processed['SessionsPerWeek']
+            )
+        else:
+            self.df_processed['playtime_per_week'] = 0
+
+        if 'AchievementsUnlocked' in self.df_processed.columns and lvl is not None:
+            level_safe = lvl.replace(0, 1)
+            self.df_processed['achievement_rate'] = (
+                self.df_processed['AchievementsUnlocked'] / level_safe
+            )
+        else:
+            self.df_processed['achievement_rate'] = 0
+
+        logger.info("Derived features created: purchases_per_session, playtime_per_week, achievement_rate")
+        return self.df_processed
     
     def encode_categorical_features(self, method: str = 'label', ordinal_mappings: dict = None) -> pd.DataFrame:
         """
@@ -267,7 +313,8 @@ class DataPreprocessor:
     
     def preprocess_pipeline(self, strategy: str = 'mean', outlier_method: str = 'iqr',
                            categorical_method: str = 'label', scale: bool = True,
-                           ordinal_mappings: dict = None) -> pd.DataFrame:
+                           ordinal_mappings: dict = None,
+                           create_features: bool = False) -> pd.DataFrame:
         """
         Execute complete preprocessing pipeline.
         
@@ -283,7 +330,14 @@ class DataPreprocessor:
         logger.info("Starting preprocessing pipeline...")
         
         self.identify_feature_types()
-        self.handle_missing_values(strategy=strategy)
+        # Optionally create derived features before handling missing values and scaling
+        if create_features:
+            self.handle_missing_values(strategy=strategy)  # ensure columns exist
+            self.create_derived_features()
+            # Re-identify types since we added numeric features
+            self.identify_feature_types()
+        else:
+            self.handle_missing_values(strategy=strategy)
         self.remove_duplicates()
         
         outliers = self.detect_outliers(method=outlier_method)
@@ -351,7 +405,8 @@ def main():
         outlier_method='iqr',
         categorical_method='label',
         scale=True,
-        ordinal_mappings=ordinal_map
+        ordinal_mappings=ordinal_map,
+        create_features=True
     )
     
     # Save processed data
