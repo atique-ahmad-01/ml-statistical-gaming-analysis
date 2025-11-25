@@ -14,9 +14,7 @@ ml-statistical-gaming-analysis/
 │   └── 04_model_evaluation.ipynb
 │
 ├── src/                           # Python scripts for modular code
-│   ├── __init__.py
 │   ├── data_preprocessing.py
-│   ├── feature_engineering.py
 │   ├── train_models.py
 │   ├── evaluate_models.py
 │   └── utils.py

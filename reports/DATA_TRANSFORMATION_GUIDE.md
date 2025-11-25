@@ -53,6 +53,36 @@ The exact mappings produced by the preprocessing (LabelEncoder alphabetical mapp
 	- Hard -> 1
 	- Medium -> 2
 
+### Simple formulas (what we did and why)
+
+This short section shows the exact math behind the common transforms used in preprocessing. Each formula is one line and a tiny example.
+
+- Z-score (standardization)
+	- Formula: z = (x - μ) / σ
+	- Why: puts numeric features on the same scale (mean≈0, std≈1) so models compare features fairly.
+	- Example: Age = 43 → z ≈ (43 - mean_age) / std_age (≈ 1.09 in the processed data)
+
+- Log 1-plus (reduce skew, keep zeros)
+	- Formula: y = ln(1 + x)
+	- Why: makes heavily skewed counts (like purchases) less extreme while preserving zeros.
+	- Example: x = 8 purchases → y = ln(9) ≈ 2.20 (then we may standardize y)
+
+- Winsorize / cap extremes
+	- Formula (concept): y = min(max(x, P_low), P_high) where P_low and P_high are percentile cutoffs
+	- Why: limits extreme values to reduce influence of outliers while keeping rank/order.
+	- Example: cap values below 1st percentile or above 99th percentile to those percentile values.
+
+- Label encoding (categorical → integer)
+	- Formula (concept): map each distinct category to a unique integer (alphabetical by default for LabelEncoder)
+	- Why: many models need numeric inputs; label encoding is compact but not ordinal unless you intend it.
+	- Example: Gender: Female -> 0, Male -> 1
+
+- Ordinal mapping (explicit order)
+	- Formula (concept): map categories to integers according to a defined order (not alphabetical)
+	- Why: use this when categories have a natural order (e.g., Low < Medium < High).
+	- Example: EngagementLevel: Low -> 0, Medium -> 1, High -> 2
+
+These formulas are intentionally simple. If you want me to apply one (for example `log1p` or `winsorize`) to `InGamePurchases` now, I can add that option to the pipeline and re-run the preprocessing so you can inspect before/after samples.
 
 ### Quick commands
 
