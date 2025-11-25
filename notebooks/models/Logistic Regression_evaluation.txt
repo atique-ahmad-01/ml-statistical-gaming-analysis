@@ -1,0 +1,18 @@
+Model: Logistic Regression
+Accuracy: 0.8296
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.81      0.71      0.76      2581
+           1       0.80      0.89      0.85      4844
+           2       0.90      0.82      0.86      2584
+
+    accuracy                           0.83     10009
+   macro avg       0.84      0.81      0.82     10009
+weighted avg       0.83      0.83      0.83     10009
+
+Confusion Matrix:
+[[1844  667   70]
+ [ 354 4334  156]
+ [  74  385 2125]]

@@ -38,3 +38,12 @@ This report documents training, evaluation and saved outputs for models trained 
 
 ![Accuracy Comparison](../analytics/models%20output/Model%20Accuracy%20Comparison.png)
 
+#  Model Evaluation Reports
+
+Saved evaluation report and trained model inside the models/ folder.
+- [Random Forest Evaluation](../notebooks/models/Random%20Forest_evaluation.txt)
+- [Decision Tree Evaluation](../notebooks/models/Decision%20Tree_evaluation.txt)
+- [XGBoost Evaluation](../notebooks/models/XGBoost_evaluation.txt)
+- [Logistic Regression Evaluation](../notebooks/models/Logistic%20Regression_evaluation.txt)
+
+
