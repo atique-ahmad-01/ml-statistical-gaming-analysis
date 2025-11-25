@@ -7,21 +7,17 @@ ml-statistical-gaming-analysis/
 │   ├── raw/                       # Original Kaggle dataset
 │   └── processed/                 # Cleaned/feature-engineered data
 │
-├── notebooks/                     # Jupyter notebooks 
-│   ├── model_training.ipynb
-│   └── model_evaluation.ipynb
+├── notebooks/                     # Jupyter notebooks model training and evaluation
+│   └── model_training.ipynb
 │
-├── src/                           # Python scripts for modular code
+├── src/                           # Python scripts for data process and transformation
 │   └──data_preprocessing.py
 │
-├── results/                       # Model performance, plots, logs
-│   ├── metrics.csv
-│   ├── confusion_matrix.png
-│   └── feature_importance.png
+├── analytics/                       # Model performance, plots, visualiztion and dashboard
 │
 ├── report/                        # Final report / markdown summary
 │
 ├── requirements.txt               # Python dependencies
-├── README.md                      # Documentation
+├── README.md                      # Documentation for project File Structure
 └── .gitignore                     # Ignore cache, venv, etc.
 ```
