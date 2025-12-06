@@ -53,6 +53,26 @@ The exact mappings produced by the preprocessing (LabelEncoder alphabetical mapp
 	- Hard -> 1
 	- Medium -> 2
 
+### Derived Feature Engineering
+
+The following new features were created to support model performance:
+purchases_per_session
+Calculates how often a user makes purchases relative to their weekly activity:
+
+purchases_per_session = InGamePurchases / max(1, SessionsPerWeek)
+
+playtime_per_week
+Estimates total time spent playing each week:
+
+playtime_per_week = PlayTimeHours * SessionsPerWeek
+
+achievement_rate
+Measures progression efficiency based on unlocked achievements:
+
+achievement_rate = AchievementsUnlocked / max(1, PlayerLevel)
+
+These derived features capture user activity intensity, spending behavior, and progression rate, providing additional signal for modeling.
+
 ### Simple formulas (what we did and why)
 
 This short section shows the exact math behind the common transforms used in preprocessing. Each formula is one line and a tiny example.
