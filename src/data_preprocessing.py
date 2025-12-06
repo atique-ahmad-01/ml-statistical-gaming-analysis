@@ -482,9 +482,10 @@ class DataPreprocessor:
 
 def main():
     """Main function to demonstrate data preprocessing."""
-    # Define paths
-    raw_data_path = "/Users/ebricks/Desktop/ml-statistical-gaming-analysis/data/raw/online_gaming_behavior_dataset.csv"
-    output_path = "/Users/ebricks/Desktop/ml-statistical-gaming-analysis/data/processed/gaming_data_processed.csv"
+    # Define paths (relative to script location)
+    script_dir = Path(__file__).parent.parent
+    raw_data_path = script_dir / "data/raw/online_gaming_behavior_dataset.csv"
+    output_path = script_dir / "data/processed/gaming_data_processed.csv"
     
     # Initialize preprocessor
     preprocessor = DataPreprocessor(raw_data_path)
