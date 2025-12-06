@@ -36,3 +36,6 @@ ml-statistical-gaming-analysis/
 
 - **[KF Implementation Reports](./reports/KF_Implementation.md)**  
   Detailed evaluation and performance comparison of Kalman Filter, Extended Kalman Filter, and Unscented Kalman Filter on the processed dataset.
+
+- **[ANOVA & Chi-Square Analysis Report](./reports/ANOVA_CHI_SQUARE_DOC.md)**  
+  Detailed statistical analysis of the dataset, including ANOVA tests for playtime across game genres and Chi-Square tests for gender versus engagement level, with visualizations and key findings.
