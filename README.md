@@ -33,3 +33,6 @@ ml-statistical-gaming-analysis/
 
 - **[ML Models Reports](./reports/ML_MODELS_REPORTS.md)**  
   Evaluation and comparison of machine learning models applied on the processed data.
+
+- **[KF Implementation Reports](./reports/KF_Implementation.md)**  
+  Detailed evaluation and performance comparison of Kalman Filter, Extended Kalman Filter, and Unscented Kalman Filter on the processed dataset.
