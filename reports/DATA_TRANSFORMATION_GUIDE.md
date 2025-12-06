@@ -12,7 +12,7 @@
 | Location | Other/USA/Europe/Asia | label encoded (0–3) | Convert text to numeric for models |
 | GameGenre | Strategy/Action/RPG/... | label encoded | Convert text to numeric for models |
 | PlayTimeHours | 0.0–24.0 | scaled (z-scores) | Normalize across users |
-| InGamePurchases | 0–100+ (skewed) | scaled (z-scores); outliers flagged | Reduce scale differences; flagged for your decision |
+| InGamePurchases | 0/1 (binary) | no scaling; keep as-is | Binary feature — scaling not needed and outliers not applicable |
 | GameDifficulty | Easy/Medium/Hard | label encoded | Convert text to numeric (no ordinal assumption) |
 | SessionsPerWeek | 0–20+ | scaled (z-scores) | Normalize count features |
 | AvgSessionDurationMinutes | 0–180+ | scaled (z-scores) | Normalize duration for modeling |
