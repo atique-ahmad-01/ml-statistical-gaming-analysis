@@ -102,7 +102,7 @@ This short section shows the exact math behind the common transforms used in pre
 	- Why: use this when categories have a natural order (e.g., Low < Medium < High).
 	- Example: EngagementLevel: Low -> 0, Medium -> 1, High -> 2
 
-These formulas are intentionally simple. If you want me to apply one (for example `log1p` or `winsorize`) to `InGamePurchases` now, I can add that option to the pipeline and re-run the preprocessing so you can inspect before/after samples.
+Now, I can add that option to the pipeline and re-run the preprocessing so you can inspect before/after samples.
 
 ### Quick commands
 
