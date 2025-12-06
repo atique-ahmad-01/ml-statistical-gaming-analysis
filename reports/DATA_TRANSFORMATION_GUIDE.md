@@ -14,10 +14,10 @@
 | PlayTimeHours | 0.0–24.0 | scaled (z-scores) | Normalize across users |
 | InGamePurchases | 0/1 (binary) | no scaling; keep as-is | Binary feature — scaling not needed and outliers not applicable |
 | GameDifficulty | Easy/Medium/Hard | label encoded | Convert text to numeric (no ordinal assumption) |
-| SessionsPerWeek | 0–20+ | scaled (z-scores) | Normalize count features |
-| AvgSessionDurationMinutes | 0–180+ | scaled (z-scores) | Normalize duration for modeling |
-| PlayerLevel | 0–100+ | scaled (z-scores) | Normalize progression levels |
-| AchievementsUnlocked | 0–100+ | scaled (z-scores) | Normalize counts for modeling |
+| SessionsPerWeek | 0–19 | scaled (z-scores) | Normalize count features |
+| AvgSessionDurationMinutes | 0–179 | scaled (z-scores) | Normalize duration for modeling |
+| PlayerLevel | 0–99 | scaled (z-scores) | Normalize progression levels |
+| AchievementsUnlocked | 0–49 | scaled (z-scores) | Normalize counts for modeling |
 | EngagementLevel | Low/Medium/High | ordinal mapped (Low→0, Medium→1, High→2) | Explicit ordinal mapping applied for modeling |
 
 ### Notes
