@@ -166,45 +166,105 @@ class DataPreprocessor:
         logger.info(f"Removed {removed} duplicate rows")
         return self.df_processed
     
+    # def detect_outliers(self, method: str = 'iqr', threshold: float = 1.5) -> Dict[str, list]:
+    #     """
+    #     Detect outliers in numerical features.
+        
+    #     Args:
+    #         method: Method for outlier detection ('iqr' or 'zscore')
+    #         threshold: Threshold for outlier detection
+        
+    #     Returns:
+    #         Dict mapping feature names to list of outlier indices
+    #     """
+    #     if self.df_processed is None:
+    #         self.df_processed = self.df.copy()
+        
+    #     outliers = {}
+        
+    #     if method == 'iqr':
+    #         for col in self.numerical_features:
+    #             Q1 = self.df_processed[col].quantile(0.25)
+    #             Q3 = self.df_processed[col].quantile(0.75)
+    #             IQR = Q3 - Q1
+    #             lower_bound = Q1 - threshold * IQR
+    #             upper_bound = Q3 + threshold * IQR
+    #             outlier_indices = self.df_processed[(self.df_processed[col] < lower_bound) | 
+    #                                                  (self.df_processed[col] > upper_bound)].index.tolist()
+    #             if outlier_indices:
+    #                 outliers[col] = outlier_indices
+    #                 logger.info(f"Found {len(outlier_indices)} outliers in {col}")
+        
+    #     elif method == 'zscore':
+    #         from scipy import stats
+    #         for col in self.numerical_features:
+    #             z_scores = np.abs(stats.zscore(self.df_processed[col]))
+    #             outlier_indices = self.df_processed[z_scores > threshold].index.tolist()
+    #             if outlier_indices:
+    #                 outliers[col] = outlier_indices
+    #                 logger.info(f"Found {len(outlier_indices)} outliers in {col}")
+        
+    #     return outliers
+
     def detect_outliers(self, method: str = 'iqr', threshold: float = 1.5) -> Dict[str, list]:
         """
-        Detect outliers in numerical features.
-        
+        Detect outliers in numerical features, skipping binary features like InGamePurchases.
+
         Args:
             method: Method for outlier detection ('iqr' or 'zscore')
             threshold: Threshold for outlier detection
-        
+
         Returns:
             Dict mapping feature names to list of outlier indices
         """
         if self.df_processed is None:
             self.df_processed = self.df.copy()
-        
+
         outliers = {}
-        
+
+        # Features that MUST NOT be checked for outliers
+        skip_features = ["InGamePurchases"]
+
+        # Only process valid continuous numerical features
+        features_to_check = [
+            col for col in self.numerical_features
+            if col not in skip_features
+        ]
+
         if method == 'iqr':
-            for col in self.numerical_features:
+            for col in features_to_check:
                 Q1 = self.df_processed[col].quantile(0.25)
                 Q3 = self.df_processed[col].quantile(0.75)
                 IQR = Q3 - Q1
                 lower_bound = Q1 - threshold * IQR
                 upper_bound = Q3 + threshold * IQR
-                outlier_indices = self.df_processed[(self.df_processed[col] < lower_bound) | 
-                                                     (self.df_processed[col] > upper_bound)].index.tolist()
+
+                outlier_indices = self.df_processed[
+                    (self.df_processed[col] < lower_bound) |
+                    (self.df_processed[col] > upper_bound)
+                ].index.tolist()
+
                 if outlier_indices:
                     outliers[col] = outlier_indices
                     logger.info(f"Found {len(outlier_indices)} outliers in {col}")
-        
+
         elif method == 'zscore':
             from scipy import stats
-            for col in self.numerical_features:
+            for col in features_to_check:
                 z_scores = np.abs(stats.zscore(self.df_processed[col]))
                 outlier_indices = self.df_processed[z_scores > threshold].index.tolist()
+
                 if outlier_indices:
                     outliers[col] = outlier_indices
                     logger.info(f"Found {len(outlier_indices)} outliers in {col}")
-        
+
+        # Log skipped binary columns
+        skipped = set(self.numerical_features) - set(features_to_check)
+        if skipped:
+            logger.info(f"Skipped outlier detection for: {', '.join(skipped)}")
+
         return outliers
+
 
     def create_derived_features(self) -> pd.DataFrame:
         """
@@ -292,24 +352,60 @@ class DataPreprocessor:
         
         return self.df_processed
     
+    # def scale_numerical_features(self) -> pd.DataFrame:
+    #     """
+    #     Scale numerical features using StandardScaler.
+        
+    #     Returns:
+    #         pd.DataFrame: Dataset with scaled features
+    #     """
+    #     if self.df_processed is None:
+    #         self.df_processed = self.df.copy()
+        
+    #     if self.numerical_features:
+    #         # Ensure id columns are not scaled (they were removed from numerical_features)
+    #         self.df_processed[self.numerical_features] = self.scaler.fit_transform(
+    #             self.df_processed[self.numerical_features]
+    #         )
+    #         logger.info(f"Scaled {len(self.numerical_features)} numerical features")
+        
+    #     return self.df_processed
+    
     def scale_numerical_features(self) -> pd.DataFrame:
         """
-        Scale numerical features using StandardScaler.
-        
+        Scale numerical features using StandardScaler, 
+        but skip binary features like InGamePurchases.
+
         Returns:
             pd.DataFrame: Dataset with scaled features
         """
         if self.df_processed is None:
             self.df_processed = self.df.copy()
-        
+
         if self.numerical_features:
-            # Ensure id columns are not scaled (they were removed from numerical_features)
-            self.df_processed[self.numerical_features] = self.scaler.fit_transform(
-                self.df_processed[self.numerical_features]
-            )
-            logger.info(f"Scaled {len(self.numerical_features)} numerical features")
-        
+
+            # List of features that should NOT be scaled
+            skip_features = ["InGamePurchases"]
+
+            # Final list of numerical features to scale
+            features_to_scale = [
+                col for col in self.numerical_features 
+                if col not in skip_features
+            ]
+
+            if features_to_scale:
+                self.df_processed[features_to_scale] = self.scaler.fit_transform(
+                    self.df_processed[features_to_scale]
+                )
+                logger.info(f"Scaled {len(features_to_scale)} numerical features (excluding binary features)")
+
+            # Inform if any numerical features were skipped
+            skipped = set(self.numerical_features) - set(features_to_scale)
+            if skipped:
+                logger.info(f"Skipped scaling for: {', '.join(skipped)}")
+
         return self.df_processed
+
     
     def preprocess_pipeline(self, strategy: str = 'mean', outlier_method: str = 'iqr',
                            categorical_method: str = 'label', scale: bool = True,
